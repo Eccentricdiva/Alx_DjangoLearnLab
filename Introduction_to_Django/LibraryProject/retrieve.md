@@ -1,7 +1,6 @@
-book = Book.objects.get(title="1984")
-book.title
-# '1984'
-book.author
-# 'George Orwell'
-book.publication_year
-# 1949
+books = Book.objects.get()
+for b in books:
+    print(b.id, b.title, b.author, b.publication_year)
+
+# Expected Output:
+# 1 1984 George Orwell 1949
