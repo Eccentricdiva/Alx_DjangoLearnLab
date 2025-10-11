@@ -9,5 +9,5 @@ class Post(models.Model):
     published_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.titles
+        return self.title
 
