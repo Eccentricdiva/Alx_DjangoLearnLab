@@ -19,6 +19,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('blog.urls')),  # connect blog app
+    path('', include('blog.urls')),   # routes to blog app
+    path('accounts/', include('django.contrib.auth.urls')),  # login/logout
 ]
+
 

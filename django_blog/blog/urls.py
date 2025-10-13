@@ -1,16 +1,15 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='index'),  # home page of blog
-]
-from django.shortcuts import render, get_object_or_404
-from .models import Post
+    # Blog URLs
+    path("", views.post_list, name="post_list"),
+    path("post/<int:pk>/", views.post_detail, name="post_detail"),
 
-from django.urls import path
-from . import views
-
-urlpatterns = [
-    path('', views.index, name='index'),
-    path('post/<int:post_id>/', views.post_detail, name='post_detail'),
+    # Authentication URLs
+    path("register/", views.register, name="register"),
+    path("login/", auth_views.LoginView.as_view(template_name="blog/login.html"), name="login"),
+    path("logout/", views.logout_view, name="logout"),  # ✅ our custom logout
+    path("profile/", views.profile, name="profile"),
 ]
