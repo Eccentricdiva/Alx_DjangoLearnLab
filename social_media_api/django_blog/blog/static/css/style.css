@@ -1,0 +1,61 @@
+/* General page styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Header and nav */
+header {
+    margin-bottom: 20px;
+}
+
+header h1 a {
+    color: #333;
+    text-decoration: none;
+}
+
+nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #007BFF;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Post list */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Post detail */
+h2 {
+    color: #007BFF;
+}
+
+/* Messages */
+.messages {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.messages .success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.messages .error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
