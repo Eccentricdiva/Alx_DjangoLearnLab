@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Blog{% endblock %}</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <img src="{% static 'images/logo.png' %}" alt="Logo" width="60" height="60">
+        <h1>Welcome to My Blog</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/about/">About</a>
+        </nav>
+    </header>
+
+    <!-- Main content -->
+    <main>
+        {% block content %}
+        <!-- Child templates will insert content here -->
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; {{ year }} My Blog</p>
+    </footer>
+
+    <!-- JS -->
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
