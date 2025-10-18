@@ -1,17 +1,24 @@
 from django import forms
-from .models import Post
+from .models import Post, Comment
 
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'content']
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
         widgets = {
-            'title': forms.TextInput(attrs={'placeholder': 'Enter a title', 'class': 'form-control'}),
-            'content': forms.Textarea(attrs={'placeholder': 'Write your post here...', 'rows': 10, 'class': 'form-control'}),
+            'content': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Write your comment...'})
         }
 
-    def clean_title(self):
-        title = self.cleaned_data.get('title', '').strip()
-        if not title:
-            raise forms.ValidationError('Title cannot be empty.')
-        return title
+    def clean_content(self):
+        data = self.cleaned_data.get('content', '').strip()
+        if not data:
+            raise forms.ValidationError("Comment cannot be empty.")
+        if len(data) > 2000:
+            raise forms.ValidationError("Comment is too long (max 2000 characters).")
+        return data

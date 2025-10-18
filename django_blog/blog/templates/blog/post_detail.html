@@ -5,8 +5,42 @@
 <p><small>By {{ post.author }} on {{ post.created_at }}</small></p>
 
 {% if user == post.author %}
-    <a href="{% url 'post-update' post.pk %}">Edit</a> |
-    <a href="{% url 'post-delete' post.pk %}">Delete</a>
+  <a href="{% url 'post-update' post.pk %}">Edit</a> |
+  <a href="{% url 'post-delete' post.pk %}">Delete</a>
 {% endif %}
-<a href="{% url 'post-list' %}">Back to Posts</a>
+
+<hr>
+<h3>Comments ({{ post.comments.count }})</h3>
+
+<ul>
+  {% for comment in comments %}
+    <li id="comment-{{ comment.pk }}">
+      <p><strong>{{ comment.author }}</strong> — <small>{{ comment.created_at }}</small></p>
+      <p>{{ comment.content|linebreaks }}</p>
+
+      {% if user == comment.author %}
+        <p>
+          <a href="{% url 'comment-update' post_pk=post.pk pk=comment.pk %}">Edit</a> |
+          <a href="{% url 'comment-delete' post_pk=post.pk pk=comment.pk %}">Delete</a>
+        </p>
+      {% endif %}
+    </li>
+  {% empty %}
+    <li>No comments yet. Be the first to comment!</li>
+  {% endfor %}
+</ul>
+
+{% if user.is_authenticated %}
+  <h4>Add a comment</h4>
+  <form method="post" action="{% url 'comment-create' post_pk=post.pk %}">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <button type="submit">Submit comment</button>
+  </form>
+{% else %}
+  <p><a href="{% url 'login' %}">Log in</a> to post a comment.</p>
+{% endif %}
+
+<a href="{% url 'post-list' %}">Back to posts</a>
 {% endblock %}
+
