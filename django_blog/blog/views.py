@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
-from .models import Post, Tag
+from .models import Post
 from .forms import PostForm
 
 
@@ -31,17 +31,13 @@ def post_create(request):
 # Update an existing post
 def post_update(request, slug):
     post = get_object_or_404(Post, slug=slug)
-    initial_tags = ', '.join([tag.name for tag in post.tags.all()])
-
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
-            post.tags.clear()  # remove old tags
             form.save()
             return redirect('blog:post_detail', slug=post.slug)
     else:
-        form = PostForm(instance=post, initial={'tags': initial_tags})
-
+        form = PostForm(instance=post)
     return render(request, 'blog/post_form.html', {'form': form, 'post': post})
 
 
@@ -58,14 +54,12 @@ def post_delete(request, slug):
 def search_posts(request):
     query = request.GET.get('q')
     results = []
-
     if query:
         results = Post.objects.filter(
             Q(title__icontains=query) |
             Q(content__icontains=query) |
             Q(tags__name__icontains=query)
         ).distinct()
-
     return render(request, 'blog/search_results.html', {
         'query': query,
         'results': results
@@ -74,9 +68,8 @@ def search_posts(request):
 
 # View posts by a specific tag
 def posts_by_tag(request, tag_name):
-    tag = get_object_or_404(Tag, name=tag_name)
-    posts = Post.objects.filter(tags=tag)
+    posts = Post.objects.filter(tags__name=tag_name)
     return render(request, 'blog/posts_by_tag.html', {
-        'tag_name': tag.name,
+        'tag_name': tag_name,
         'posts': posts
     })

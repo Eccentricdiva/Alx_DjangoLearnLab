@@ -1,13 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
-
-
-class Tag(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-
-    def __str__(self):
-        return self.name
-
+from taggit.managers import TaggableManager  # taggit for tagging
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
@@ -15,10 +8,11 @@ class Post(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-    # Many-to-many relation with Tag
-    tags = models.ManyToManyField(Tag, related_name='posts', blank=True)
+    # Tagging with taggit
+    tags = TaggableManager()
 
     def save(self, *args, **kwargs):
+        # Automatically generate slug from title if not set
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
