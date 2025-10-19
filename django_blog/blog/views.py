@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
+from django.views.generic import ListView
 from .models import Post
 from .forms import PostForm
 
@@ -59,10 +60,12 @@ def search_posts(request):
         'results': results
     })
 
-# View posts by a specific tag
-def posts_by_tag(request, tag_name):
-    posts = Post.objects.filter(tags__name=tag_name)
-    return render(request, 'blog/posts_by_tag.html', {
-        'tag_name': tag_name,
-        'posts': posts
-    })
+# View posts by a specific tag (ALX class-based view)
+class PostByTagListView(ListView):
+    model = Post
+    template_name = 'blog/posts_by_tag.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        tag_slug = self.kwargs.get('tag_slug')
+        return Post.objects.filter(tags__name=tag_slug)
