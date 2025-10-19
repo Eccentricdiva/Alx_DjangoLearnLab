@@ -19,8 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('blog.urls')),   # routes to blog app
-    path('accounts/', include('django.contrib.auth.urls')),  # login/logout
+    path('api/', include('posts.urls')),  # Include the app urls here
+    path('api-auth/', include('rest_framework.urls')),  # Optional DRF login/logout
 ]
-
-
