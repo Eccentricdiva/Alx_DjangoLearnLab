@@ -3,18 +3,15 @@ from django.db.models import Q
 from .models import Post
 from .forms import PostForm
 
-
 # List all posts
 def post_list(request):
     posts = Post.objects.all().order_by('-created_at')
     return render(request, 'blog/post_list.html', {'posts': posts})
 
-
 # View a single post
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
     return render(request, 'blog/post_detail.html', {'post': post})
-
 
 # Create a new post
 def post_create(request):
@@ -26,7 +23,6 @@ def post_create(request):
     else:
         form = PostForm()
     return render(request, 'blog/post_form.html', {'form': form})
-
 
 # Update an existing post
 def post_update(request, slug):
@@ -40,7 +36,6 @@ def post_update(request, slug):
         form = PostForm(instance=post)
     return render(request, 'blog/post_form.html', {'form': form, 'post': post})
 
-
 # Delete a post
 def post_delete(request, slug):
     post = get_object_or_404(Post, slug=slug)
@@ -48,7 +43,6 @@ def post_delete(request, slug):
         post.delete()
         return redirect('blog:post_list')
     return render(request, 'blog/post_confirm_delete.html', {'post': post})
-
 
 # Search posts by title, content, or tags
 def search_posts(request):
@@ -64,7 +58,6 @@ def search_posts(request):
         'query': query,
         'results': results
     })
-
 
 # View posts by a specific tag
 def posts_by_tag(request, tag_name):
