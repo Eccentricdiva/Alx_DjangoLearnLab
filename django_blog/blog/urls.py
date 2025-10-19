@@ -1,16 +1,17 @@
 from django.urls import path
 from . import views
 
-urlpatterns = [
-    # Post URLs
-    path('posts/', views.PostListView.as_view(), name='post_list'),
-    path('posts/<int:pk>/', views.PostDetailView.as_view(), name='post_detail'),
-    path('posts/new/', views.PostCreateView.as_view(), name='post_create'),
-    path('posts/<int:pk>/edit/', views.PostUpdateView.as_view(), name='post_update'),
-    path('posts/<int:pk>/delete/', views.PostDeleteView.as_view(), name='post_delete'),
+app_name = 'blog'
 
-    # Comment URLs (exactly as ALX checker wants)
-    path('post/<int:post_id>/comments/new/', views.CommentCreateView.as_view(), name='comment_create'),
-    path('comment/<int:pk>/update/', views.CommentUpdateView.as_view(), name='comment_update'),
-    path('comment/<int:pk>/delete/', views.CommentDeleteView.as_view(), name='comment_delete'),
+urlpatterns = [
+    # Post CRUD routes
+    path('', views.post_list, name='post_list'),
+    path('post/<slug:slug>/', views.post_detail, name='post_detail'),
+    path('post/new/', views.post_create, name='post_create'),
+    path('post/<slug:slug>/edit/', views.post_update, name='post_update'),
+    path('post/<slug:slug>/delete/', views.post_delete, name='post_delete'),
+
+    # New features
+    path('search/', views.search_posts, name='search'),
+    path('tags/<str:tag_name>/', views.posts_by_tag, name='posts_by_tag'),
 ]

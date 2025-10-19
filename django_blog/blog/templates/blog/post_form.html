@@ -1,6 +1,10 @@
 {% extends "base.html" %}
+
+{% block title %}{{ post.title|default:"New Post" }}{% endblock %}
+
 {% block content %}
-  <h1>{% if form.instance.pk %}Edit Post{% else %}New Post{% endif %}</h1>
+  <h2>{{ post.title|default:"New Post" }}</h2>
+
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
